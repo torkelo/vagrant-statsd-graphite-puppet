@@ -2,7 +2,7 @@ class graphite {
 
  $build_dir = "/tmp"
 
- $webapp_url = "http://launchpad.net/graphite/0.9/0.9.9/+download/graphite-web-0.9.9.tar.gz"
+ $webapp_url = "https://pypi.python.org/packages/source/g/graphite-web/graphite-web-0.9.12.tar.gz#md5=8edbb61f1ffe11c181bd2cb9ec977c72"
 
  $webapp_loc = "$build_dir/graphite-web.tar.gz"
 
@@ -20,7 +20,7 @@ class graphite {
 
    exec { "install-webapp":
      command => "python setup.py install",
-     cwd => "$build_dir/graphite-web-0.9.9",
+     cwd => "$build_dir/graphite-web-0.9.12",
      require => Exec[unpack-webapp],
      creates => "/opt/graphite/webapp"
    }
@@ -80,7 +80,7 @@ class graphite {
   }
 
   file { "/opt/graphite/webapp/graphite/local_settings.py" :
-    source => "/tmp/vagrant-puppet/modules-0/graphite/files/local_settings.py",
+    source => "/tmp/vagrant-puppet-1/modules-0/graphite/files/local_settings.py",
     ensure => present,
     require => File["/opt/graphite/storage"]
  }
@@ -125,8 +125,14 @@ class graphite {
     require => Package["apache2"],
   }
 
+  exec { "install_mod_headers":
+     command => "a2enmod headers",
+     cwd => "//tmp",
+   }
+
   service { "apache2" :
     ensure => "running",
+    subscribe => Exec["install_mod_headers"],
     require => [ File["/opt/graphite/storage/log/webapp/"], File["/opt/graphite/storage/graphite.db"] ],
   }
 
