@@ -45,20 +45,20 @@ class graphite {
      content => '
 [
   {
-    "pk": 1, 
-    "model": "auth.user", 
+    "pk": 1,
+    "model": "auth.user",
     "fields": {
-      "username": "admin", 
-      "first_name": "", 
-      "last_name": "", 
-      "is_active": true, 
-      "is_superuser": true, 
-      "is_staff": true, 
-      "last_login": "2011-09-20 17:02:14", 
-      "groups": [], 
-      "user_permissions": [], 
-      "password": "sha1$1b11b$edeb0a67a9622f1f2cfeabf9188a711f5ac7d236", 
-      "email": "root@example.com", 
+      "username": "admin",
+      "first_name": "",
+      "last_name": "",
+      "is_active": true,
+      "is_superuser": true,
+      "is_staff": true,
+      "last_login": "2011-09-20 17:02:14",
+      "groups": [],
+      "user_permissions": [],
+      "password": "sha1$1b11b$edeb0a67a9622f1f2cfeabf9188a711f5ac7d236",
+      "email": "root@example.com",
       "date_joined": "2011-09-20 17:02:14"
     }
   }
@@ -86,12 +86,16 @@ class graphite {
  }
 
   file { "/etc/apache2/sites-available/default" :
-    content =>' 
+    content =>'
 <VirtualHost *:80>
         ServerName graphite
         DocumentRoot "/opt/graphite/webapp"
         ErrorLog /opt/graphite/storage/log/webapp/error.log
         CustomLog /opt/graphite/storage/log/webapp/access.log common
+
+        Header set Access-Control-Allow-Origin "*"
+        Header set Access-Control-Allow-Methods "GET, OPTIONS"
+        Header set Access-Control-Allow-Headers "origin, authorization, accept"
 
         <Location "/">
                 SetHandler python-program
