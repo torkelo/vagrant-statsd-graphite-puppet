@@ -31,6 +31,11 @@ class graphite {
     mode => "0775",
   }
 
+  file { "/opt/graphite/storage/whisper/metrics_data":
+    source => "/tmp/vagrant-puppet-1/modules-0/graphite/files/metrics_data",
+    recurse => true,
+  }
+
   exec { "init-db":
      command => "python manage.py syncdb --noinput",
      cwd => "/opt/graphite/webapp/graphite",
@@ -80,7 +85,7 @@ class graphite {
   }
 
   file { "/opt/graphite/webapp/graphite/local_settings.py" :
-    source => "/tmp/vagrant-puppet/modules-0/graphite/files/local_settings.py",
+    source => "/tmp/vagrant-puppet-1/modules-0/graphite/files/local_settings.py",
     ensure => present,
     require => File["/opt/graphite/storage"]
  }
