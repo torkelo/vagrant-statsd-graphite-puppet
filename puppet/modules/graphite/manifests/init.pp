@@ -31,11 +31,11 @@ class graphite {
     mode => "0775",
   }
 
-  file { "/opt/graphite/storage/whisper/metrics_data":
+/*  file { "/opt/graphite/storage/whisper/metrics_data":
     source => "/tmp/vagrant-puppet-1/modules-0/graphite/files/metrics_data",
     recurse => true,
   }
-
+*/
   exec { "init-db":
      command => "python manage.py syncdb --noinput",
      cwd => "/opt/graphite/webapp/graphite",
